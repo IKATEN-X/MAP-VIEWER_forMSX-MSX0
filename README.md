@@ -114,6 +114,12 @@ GPS 版では、GPS から取得した緯度・経度を使って現在地を更
 
 ## License
 
-This project is released under CC0 1.0 Universal. See [LICENSE](LICENSE) for details.
+Source code and original files in this repository are released under CC0 1.0 Universal. See [LICENSE](LICENSE) for details.
 
-Map data may include data derived from OpenStreetMap. If you redistribute modified map data, please also check the OpenStreetMap/ODbL attribution requirements.
+Map data is derived from OpenStreetMap data.
+
+© OpenStreetMap contributors  
+OpenStreetMap data is available under the Open Database License (ODbL).  
+https://www.openstreetmap.org/copyright
+
+If you modify or redistribute the included map data, please follow the OpenStreetMap / ODbL attribution and share-alike requirements.
