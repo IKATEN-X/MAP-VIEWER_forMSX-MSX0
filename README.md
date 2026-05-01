@@ -1,6 +1,113 @@
-# MAP-VIEWER_forMSX-MSX0
-MSXで日本地図を表示してみた
+# MAP-VIEWER for MSX / MSX0
 
-MSX0以外で実行するには、MSX-DOS2もしくはNextorが動作できる環境が必要です。
+MSX / MSX0 で日本地図を表示する地図ビューアです。
 
-MSX0でGPSと一緒に使用するには、M5Stack用GPSユニットを用意し、ディスクイメージ内のGPSMAP.BASを起動してください。
+MSX の SCREEN 1 上に、分割した地図データを必要に応じて読み込みながら表示します。通常版の `MAP.BAS` ではカーソル/ジョイスティック操作で地図を移動でき、MSX0 では `GPSMAP.BAS` を使うことで M5Stack 用 GPS ユニットから現在地を取得して表示できます。
+
+![MAP-VIEWER screenshot 1](image1.png)
+
+## Features
+
+- MSX / MSX0 上で日本地図を表示
+- 地図データをタイル状の `.BIN` ファイルとして分割収録
+- 現在位置の緯度・経度表示
+- 目的地の緯度・経度入力と方向表示
+- GPS から取得した位置情報による現在地表示
+- MSX0 以外でも、MSX-DOS2 または Nextor が動作する環境で実行可能
+
+## Files
+
+| File / Directory | Description |
+| --- | --- |
+| `map.dsk` | 実行用ディスクイメージ |
+| `src/MAP.BAS` | 通常版の地図ビューア |
+| `src/GPSMAP.BAS` | MSX0 + GPS ユニット用の地図ビューア |
+| `src/MAP.ASM` | 地図表示・座標計算などを行う機械語部分のソース |
+| `src/PCG.pat`, `src/PCG.col` | 表示用 PCG データ |
+| `src/Txx/*.BIN` | 分割された地図データ |
+
+## Map Data Format
+
+地図データは、MSX のメモリとディスクアクセスに合わせて小さなタイルに分割しています。
+
+| Item | Value |
+| --- | --- |
+| 対象範囲 | 経度 123〜151 度、緯度 22〜46 度 |
+| グリッド数 | 横 56 × 縦 48 |
+| 1 タイルの範囲 | 経度 0.5 度 × 緯度 0.5 度 |
+| 1 タイルの表示サイズ | 32 × 32 文字 |
+| 1 タイルの実データサイズ | 512 bytes |
+| ファイルサイズ | 519 bytes（BLOAD ヘッダ 7 bytes + 実データ 512 bytes） |
+| ファイル名 | `src/Txx/Txx_yy.BIN` |
+
+`xx` は西から東へのタイル番号、`yy` は北から南へのタイル番号です。たとえば `src/T35/T35_20.BIN` は、X=35、Y=20 の地図タイルを表します。
+
+各タイルは 4 bit の値を 1 文字分の地図パターンとして持っています。1 byte に 2 文字分を格納し、1 行あたり 16 bytes、32 行で 512 bytes になります。表示時には 4 bit の値に `&H80` を加え、PCG の文字コードとして画面バッファへ展開します。
+
+完全に海になるタイルはファイルを持たず、`MAP.ASM` 内の `SEA_TABLE` で判定して 0 で埋めたタイルとして扱います。そのため、`src` 配下には 56 × 48 個すべての `.BIN` があるわけではありません。
+
+## Requirements
+
+### MSX0 で実行する場合
+
+- MSX0
+- [M5Stack 用 GPS ユニット [U032]](https://www.switch-science.com/products/5694)（GPS 連動表示を使う場合）
+
+このプロジェクトでは上記の旧 GPS ユニットで動作確認しています。スイッチサイエンスでは販売終了となっています。
+
+現行品の [M5Stack 用 GPS ユニット v1.1](https://www.switch-science.com/products/10037) は、仕様上は少しの修正で使える可能性があります。ただし、このリポジトリの `GPSMAP.BAS` は旧 GPS ユニット向けの設定です。旧版は UART 9600 bps、新版 v1.1 は UART 115200 bps のため、少なくとも `CALL COMINI` の通信速度設定の変更が必要になる可能性があります。
+
+### MSX0 以外で実行する場合
+
+- MSX-DOS2 または Nextor が動作する MSX 環境
+- ディスクイメージをマウントできるエミュレータ、または実機環境
+
+## How to Run
+
+### 通常版
+
+1. `map.dsk` を MSX / MSX0 環境でマウントします。
+2. BASIC から `MAP.BAS` を起動します。
+
+```basic
+RUN "MAP.BAS"
+```
+
+### GPS 版
+
+1. MSX0 に M5Stack 用 GPS ユニットを接続します。
+2. `map.dsk` をマウントします。
+3. BASIC から `GPSMAP.BAS` を起動します。
+
+```basic
+RUN "GPSMAP.BAS"
+```
+
+## Controls
+
+| Operation | Description |
+| --- | --- |
+| カーソル / ジョイスティック | 地図を移動 |
+| `ESC` | 目的地の緯度・経度を入力 |
+
+GPS 版では、GPS から取得した緯度・経度を使って現在地を更新します。
+
+## Screenshots
+
+![MAP-VIEWER screenshot 2](image2.jpg)
+
+![MAP-VIEWER screenshot 3](image3.png)
+
+![MAP-VIEWER screenshot 4](image4.png)
+
+## Notes
+
+- 表示範囲は日本周辺を想定しています。
+- 地図データは MSX で扱いやすいように分割・軽量化しています。
+- GPS 版では NMEA の GGA センテンスを読み取り、緯度・経度へ変換しています。
+
+## License
+
+This project is released under CC0 1.0 Universal. See [LICENSE](LICENSE) for details.
+
+Map data may include data derived from OpenStreetMap. If you redistribute modified map data, please also check the OpenStreetMap/ODbL attribution requirements.
