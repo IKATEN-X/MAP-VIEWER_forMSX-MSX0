@@ -51,7 +51,10 @@ MSX の SCREEN 1 上に、分割した地図データを必要に応じて読み
 ### MSX0 で実行する場合
 
 - MSX0
+- MSX0 の設定で、DOS を MSX-DOS2 または Nextor に設定していること
 - [M5Stack 用 GPS ユニット [U032]](https://www.switch-science.com/products/5694)（GPS 連動表示を使う場合）
+
+地図データは `T00`、`T01` のようなディレクトリに分けて格納しているため、ディレクトリに対応した DOS 環境が必要です。
 
 このプロジェクトでは上記の旧 GPS ユニットで動作確認しています。スイッチサイエンスでは販売終了となっています。
 
@@ -66,8 +69,9 @@ MSX の SCREEN 1 上に、分割した地図データを必要に応じて読み
 
 ### 通常版
 
-1. `map.dsk` を MSX / MSX0 環境でマウントします。
-2. BASIC から `MAP.BAS` を起動します。
+1. MSX0 の場合は、設定で DOS を MSX-DOS2 または Nextor にします。
+2. `map.dsk` を MSX / MSX0 環境でマウントします。
+3. BASIC から `MAP.BAS` を起動します。
 
 ```basic
 RUN "MAP.BAS"
@@ -76,8 +80,9 @@ RUN "MAP.BAS"
 ### GPS 版
 
 1. MSX0 に M5Stack 用 GPS ユニットを接続します。
-2. `map.dsk` をマウントします。
-3. BASIC から `GPSMAP.BAS` を起動します。
+2. MSX0 の設定で DOS を MSX-DOS2 または Nextor にします。
+3. `map.dsk` をマウントします。
+4. BASIC から `GPSMAP.BAS` を起動します。
 
 ```basic
 RUN "GPSMAP.BAS"
@@ -98,7 +103,7 @@ GPS 版では、GPS から取得した緯度・経度を使って現在地を更
 
 ![MAP-VIEWER screenshot 3](image3.png)
 
-![MAP-VIEWER screenshot 4](image4.png)
+![MAP-VIEWER screenshot 4](image4.jpg)
 
 ## Notes
 
