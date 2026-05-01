@@ -69,9 +69,8 @@ MSX の SCREEN 1 上に、分割した地図データを必要に応じて読み
 ### MSX0 で実行する場合
 
 - MSX0
-- MSX0 の設定で、DOS を MSX-DOS2 または Nextor に設定していること
-- [M5Stack 用 GPS ユニット [U032]](https://www.switch-science.com/products/5694)（GPS 連動表示を使う場合）
-- GPS ユニットは UART 接続のため、BOTTOM2 または Faces II の PORT C（水色）に接続すること
+- DOS 設定を MSX-DOS2 または Nextor にすること
+- GPS 連動表示を使う場合は、[M5Stack 用 GPS ユニット [U032]](https://www.switch-science.com/products/5694) を BOTTOM2 または Faces II の PORT C（水色）に接続すること
 
 地図データは `T00`、`T01` のようなディレクトリに分けて格納しているため、ディレクトリに対応した DOS 環境が必要です。
 
@@ -88,9 +87,8 @@ MSX の SCREEN 1 上に、分割した地図データを必要に応じて読み
 
 ### 通常版
 
-1. MSX0 の場合は、設定で DOS を MSX-DOS2 または Nextor にします。
-2. `map.dsk` を MSX / MSX0 環境でマウントします。
-3. BASIC から `MAP.BAS` を起動します。
+1. `map.dsk` を MSX / MSX0 環境でマウントします。
+2. BASIC から `MAP.BAS` を起動します。
 
 ```basic
 RUN "MAP.BAS"
@@ -100,14 +98,14 @@ RUN "MAP.BAS"
 
 ![MAP-VIEWER screenshot 4](image4.jpg)
 
-1. M5Stack 用 GPS ユニットを BOTTOM2 または Faces II の PORT C（水色）に接続します。
-2. MSX0 の設定で DOS を MSX-DOS2 または Nextor にします。
-3. `map.dsk` をマウントします。
-4. BASIC から `GPSMAP.BAS` を起動します。
+1. `map.dsk` をマウントします。
+2. BASIC から `GPSMAP.BAS` を起動します。
 
 ```basic
 RUN "GPSMAP.BAS"
 ```
+
+MSX0 で電源投入後に自動起動させたい場合は、起動したい BASIC ファイルを `AUTOEXEC.BAS` にリネームしてください。通常版を自動起動する場合は `MAP.BAS`、GPS 版を自動起動する場合は `GPSMAP.BAS` を `AUTOEXEC.BAS` にします。
 
 ## Controls
 
