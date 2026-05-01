@@ -69,8 +69,8 @@ MSX の SCREEN 1 上に、分割した地図データを必要に応じて読み
 ### MSX0 で実行する場合
 
 - MSX0
-- DOS 設定を MSX-DOS2 または Nextor にすること
-- GPS 連動表示を使う場合は、[M5Stack 用 GPS ユニット [U032]](https://www.switch-science.com/products/5694) を BOTTOM2 または Faces II の PORT C（水色）に接続すること
+- DOS 設定: MSX-DOS2 または Nextor
+- GPS 連動表示: [M5Stack 用 GPS ユニット [U032]](https://www.switch-science.com/products/5694) を BOTTOM2 または Faces II の PORT C（水色）に接続
 
 地図データは `T00`、`T01` のようなディレクトリに分けて格納しているため、ディレクトリに対応した DOS 環境が必要です。
 
