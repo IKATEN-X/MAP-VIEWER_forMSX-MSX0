@@ -118,6 +118,8 @@ Source code and original files in this repository are released under CC0 1.0 Uni
 
 Map data is derived from OpenStreetMap data.
 
+The included map tile data under `src/Txx/*.BIN` and the map data contained in `map.dsk` are not released under CC0. They are derived from OpenStreetMap data and are subject to the Open Database License (ODbL).
+
 © OpenStreetMap contributors  
 OpenStreetMap data is available under the Open Database License (ODbL).  
 https://www.openstreetmap.org/copyright
