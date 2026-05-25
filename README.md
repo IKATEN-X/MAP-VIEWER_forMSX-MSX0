@@ -2,7 +2,7 @@
 
 MSX / MSX0 で日本地図を表示する地図ビューアです。
 
-MSX の SCREEN 1 上に、分割した地図データを必要に応じて読み込みながら表示します。通常版の `MAP.BAS` ではカーソル操作で地図を移動でき、MSX0 では `GPSMAP.BAS` を使うことで M5Stack 用 GPS ユニットから現在地を取得して表示できます。
+MSX の SCREEN 1 上に、分割した地図データを必要に応じて読み込みながら表示します。通常版の `MAP.BAS` ではカーソル/ジョイスティック操作で地図を移動でき、MSX0 では `GPSMAP.BAS` を使うことで M5Stack 用 GPS ユニットから現在地を取得して表示できます。
 
 ![MAP-VIEWER screenshot 1](image1.png)
 
@@ -70,13 +70,19 @@ MSX の SCREEN 1 上に、分割した地図データを必要に応じて読み
 
 - MSX0
 - DOS 設定: MSX-DOS2 または Nextor
-- GPS 連動表示: [M5Stack 用 GPS ユニット [U032]](https://www.switch-science.com/products/5694) を BOTTOM2 または Faces II の PORT C（水色）に接続
+- GPS 連動表示: [M5Stack 用 GPS ユニット [U032]](https://www.switch-science.com/products/5694) または [M5Stack 用 GPS ユニット v1.1](https://www.switch-science.com/products/10037) を BOTTOM2 または Faces II の PORT C（水色）に接続
 
 地図データは `T00`、`T01` のようなディレクトリに分けて格納しているため、ディレクトリに対応した DOS 環境が必要です。
 
-このプロジェクトでは上記の旧 GPS ユニットで動作確認しています。スイッチサイエンスでは販売終了となっています。
+このプロジェクトでは旧 GPS ユニット [U032] で動作確認しています。スイッチサイエンスでは販売終了となっています。
 
-現行品の [M5Stack 用 GPS ユニット v1.1](https://www.switch-science.com/products/10037) は、仕様上は少しの修正で使える可能性があります。ただし、このリポジトリの `GPSMAP.BAS` は旧 GPS ユニット向けの設定です。旧版は UART 9600 bps、新版 v1.1 は UART 115200 bps のため、少なくとも `CALL COMINI` の通信速度設定の変更が必要になる可能性があります。
+2026年5月時点の現行品である [M5Stack 用 GPS ユニット v1.1](https://www.switch-science.com/products/10037) でも、ボーレートを変更することで動作確認済みです。旧版 [U032] は UART 9600 bps、v1.1 は UART 115200 bps のため、`GPSMAP.BAS` の 7020 行目を次のように変更します。
+
+```basic
+7020 CALL COMINI("0:8N1NH",-1)
+```
+
+MSX0 の BASIC では、シリアルポートの速度指定 `-1` が 115200 bps に相当します。
 
 ### MSX0 以外で実行する場合
 
@@ -98,6 +104,8 @@ RUN "MAP.BAS"
 
 ![MAP-VIEWER screenshot 4](image4.jpg)
 
+![M5Stack GPS Unit v1.1 connected to MSX0](image5.jpg)
+
 1. `map.dsk` をマウントします。
 2. BASIC から `GPSMAP.BAS` を起動します。
 
@@ -111,7 +119,7 @@ MSX0 で電源投入後に自動起動させたい場合は、起動したい BA
 
 | Operation | Description |
 | --- | --- |
-| カーソル | 地図を移動 |
+| カーソル / ジョイスティック | 地図を移動 |
 | `ESC` | 目的地の緯度・経度を入力 |
 
 GPS 版では、GPS から取得した緯度・経度を使って現在地を更新します。
